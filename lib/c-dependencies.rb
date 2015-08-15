@@ -17,10 +17,12 @@ module CDependencies
     list = output.split()
     raise("unexpected dependency output for '#{path}'") if list.size < 2
 
+    # remove blanks and line continuations, which can come up as a side-effect
+    # of the split
+    list.reject! { |x| x.empty? || x == '\\' }
+
     # first element is the object file, second is the source itself
     list = list[2..-1]
-
-    list.reject! { |x| x.empty? || x == '\\' } # remove blanks and line continuations
 
     DependencyList.new(list)
   end

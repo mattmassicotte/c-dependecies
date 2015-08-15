@@ -1,0 +1,22 @@
+PATH
+  remote: .
+  specs:
+    c-dependencies (0.1.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    minitest (5.4.3)
+    rake (10.4.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.10)
+  c-dependencies!
+  minitest
+  rake (~> 10.0)
+
+BUNDLED WITH
+   1.10.5
