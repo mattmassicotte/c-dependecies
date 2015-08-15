@@ -1,5 +1,6 @@
 require "c-dependencies/version"
 require 'c-dependencies/compiler_invocation'
+require 'c-dependencies/dependency_list'
 
 module CDependencies
   def self.for_source_file(path, flags=nil)
@@ -19,6 +20,8 @@ module CDependencies
     # first element is the object file, second is the source itself
     list = list[2..-1]
 
-    list.reject { |x| x.empty? || x == '\\' } # remove blanks and line continuations
+    list.reject! { |x| x.empty? || x == '\\' } # remove blanks and line continuations
+
+    DependencyList.new(list)
   end
 end
