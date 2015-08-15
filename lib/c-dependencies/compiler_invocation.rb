@@ -16,11 +16,12 @@ module CDependencies
                       '.S' => 'gas',
                       '.asm' => 'nasm' }
 
-    def initialize(path)
+    def initialize(path, compiler_flags=nil)
       self.input_path = path
+      self.flags = compiler_flags
 
-      if self.tool_name.nil?
-        raise FileUnsupportedError.new("Unsure how to compile a file with extension '#{self.input_extension}'")
+      if tool_name.nil?
+        raise FileUnsupportedError.new("Unsure how to compile a file with extension '#{input_extension}'")
       end
     end
 
