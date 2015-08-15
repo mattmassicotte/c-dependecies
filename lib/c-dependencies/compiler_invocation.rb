@@ -25,15 +25,34 @@ module CDependencies
     end
 
     def input_extension
-      File.extname(self.input_path)
+      File.extname(input_path)
     end
 
     def tool_name
-      EXTENSION_MAP[self.input_extension]
+      EXTENSION_MAP[input_extension]
     end
 
     def dependency_cmd
-      "#{self.tool_name} #{self.flags} -MM '#{self.input_path}'"
+      "#{tool_cmd} #{dependency_flag} '#{input_path}'"
+    end
+
+    def has_flags?
+      !flags.nil? && flags != ''
+    end
+
+    private
+    def tool_cmd
+      has_flags? ? "#{tool_name} #{flags}" : tool_name
+    end
+
+    def dependency_flag
+      case tool_name
+      when 'cc', 'c++'
+        # -MM suppresses system header dependencies
+        '-MM'
+      when 'nasm'
+        '-M'
+      end
     end
   end
 end

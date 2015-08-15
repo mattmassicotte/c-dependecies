@@ -3,38 +3,44 @@ require 'test_helper'
 class CompilerInvocationTest < Minitest::Test
   def test_c_file_input
     invocation = CDependencies::CompilerInvocation.new('file.c')
-    assert invocation.tool_name == 'cc'
+    assert_equal 'cc', invocation.tool_name
   end
 
   def test_cc_file_input
     invocation = CDependencies::CompilerInvocation.new('file.cc')
-    assert invocation.tool_name == 'c++'
+    assert_equal 'c++', invocation.tool_name
   end
 
   def test_cpp_file_input
     invocation = CDependencies::CompilerInvocation.new('file.cpp')
-    assert invocation.tool_name == 'c++'
+    assert_equal 'c++', invocation.tool_name
   end
 
   def test_hpp_file_input
     invocation = CDependencies::CompilerInvocation.new('file.hpp')
-    assert invocation.tool_name == 'c++'
+    assert_equal 'c++', invocation.tool_name
   end
 
   def test_S_file_input
     invocation = CDependencies::CompilerInvocation.new('file.S')
-    assert invocation.tool_name == 'gas'
+    assert_equal 'gas', invocation.tool_name
   end
 
   def test_asm_file_input
     invocation = CDependencies::CompilerInvocation.new('file.asm')
-    assert invocation.tool_name == 'nasm'
+    assert_equal 'nasm', invocation.tool_name
   end
 
-  def test_simple_c_dependency_command
+  def test_c_dependency_command
     invocation = CDependencies::CompilerInvocation.new('file.c')
     invocation.flags = '-Wall'
 
-    assert invocation.dependency_cmd == 'cc -Wall -MM \'file.c\''
+    assert_equal 'cc -Wall -MM \'file.c\'', invocation.dependency_cmd
+  end
+
+  def test_asm_dependency_command
+    invocation = CDependencies::CompilerInvocation.new('file.asm')
+
+    assert_equal 'nasm -M \'file.asm\'', invocation.dependency_cmd
   end
 end
