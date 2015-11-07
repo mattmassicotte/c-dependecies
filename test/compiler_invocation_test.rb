@@ -43,4 +43,12 @@ class CompilerInvocationTest < Minitest::Test
 
     assert_equal 'nasm -M \'file.asm\'', invocation.dependency_cmd
   end
+
+  def test_compile_command
+    invocation = CDependencies::CompilerInvocation.new('file.c')
+    invocation.flags = '-Wall'
+    invocation.output_path = 'file.o'
+
+    assert_equal 'cc -Wall -c \'file.c\' -o \'file.o\'', invocation.compile_cmd
+  end
 end

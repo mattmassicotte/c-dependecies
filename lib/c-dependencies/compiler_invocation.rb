@@ -6,7 +6,6 @@ module CDependencies
     attr_accessor :tool_name
     attr_accessor :flags
     attr_accessor :input_path
-    attr_accessor :output_file
     attr_accessor :output_path
 
     EXTENSION_MAP = { '.c' => 'cc',
@@ -37,13 +36,18 @@ module CDependencies
       "#{tool_cmd} #{dependency_flag} '#{input_path}'"
     end
 
-    def has_flags?
-      !flags.nil? && flags != ''
+    def compile_cmd
+      cmd = tool_cmd
+      cmd += " -c '#{input_path}'"
+      cmd += " -o '#{output_path}'"
+      cmd
     end
 
     private
     def tool_cmd
-      has_flags? ? "#{tool_name} #{flags}" : tool_name
+      cmd = tool_name
+      cmd += ' ' + flags if !flags.nil? && flags != ''
+      cmd
     end
 
     def dependency_flag

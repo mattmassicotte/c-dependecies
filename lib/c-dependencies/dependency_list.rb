@@ -19,15 +19,25 @@ module CDependencies
       list = File.readlines(path)
       list.map! { |x| x.chomp() }
 
-      # make a non-empty list of files that also exist
-      list.reject! { |x| x.empty? || !File.exist?(x) }
+      # make a non-empty list of files
+      list.reject! { |x| x.empty? }
+
+      # [path, sha] throwing away the sha part for now
+      list.map! { |x| x.split(',')[0] }
+
+      # remove files that do not exist
+      list.reject! { |x| !File.exist?(x) }
 
       DependencyList.new(list)
     end
 
+    def append(path)
+      @paths << File.absolute_path(path)
+    end
+
     private
     def serializable_dependency_entry(entry)
-      entry
+      "#{entry}, #{file_hash(entry)}"
     end
 
     def serializable_entries
