@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class CompilerInvocationTest < Minitest::Test
+  def setup
+    ENV['CC'] = nil
+    ENV['CXX'] = nil
+  end
+
   def test_c_file_input
     invocation = CDependencies::CompilerInvocation.new('file.c')
     assert_equal 'cc', invocation.tool_name
@@ -50,5 +55,17 @@ class CompilerInvocationTest < Minitest::Test
     invocation.output_path = 'file.o'
 
     assert_equal 'cc -Wall -c \'file.c\' -o \'file.o\'', invocation.compile_cmd
+  end
+
+  def test_cc_env_var
+    ENV['CC'] = 'my_c_compiler'
+    invocation = CDependencies::CompilerInvocation.new('file.c')
+    assert_equal 'my_c_compiler', invocation.tool_name
+  end
+
+  def test_cxx_env_var
+    ENV['CXX'] = 'my_cpp_compiler'
+    invocation = CDependencies::CompilerInvocation.new('file.cpp')
+    assert_equal 'my_cpp_compiler', invocation.tool_name
   end
 end

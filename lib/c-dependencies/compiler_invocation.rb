@@ -29,6 +29,19 @@ module CDependencies
     end
 
     def tool_name
+      name = default_tool_name
+
+      case name
+      when 'c++'
+        get_env_named('CXX') || name
+      when 'cc'
+        get_env_named('CC') || name
+      else
+        name
+      end
+    end
+
+    def default_tool_name
       EXTENSION_MAP[input_extension]
     end
 
@@ -51,12 +64,23 @@ module CDependencies
     end
 
     def dependency_flag
-      case tool_name
+      case default_tool_name
       when 'cc', 'c++'
         # -MM suppresses system header dependencies
         '-MM'
       when 'nasm'
         '-M'
+      end
+    end
+
+    private
+    def get_env_named(name)
+      env_var = ENV[name]
+
+      if env_var.nil? || env_var == ''
+        nil
+      else
+        env_var
       end
     end
   end
