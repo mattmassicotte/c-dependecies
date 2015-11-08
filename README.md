@@ -1,5 +1,7 @@
 # CDependencies
 
+[![Build Status](https://travis-ci.org/mattmassicotte/c-dependecies.svg?branch=master)](https://travis-ci.org/mattmassicotte/c-dependecies)
+
 Simple gem to help discover and work with C/C++/ASM file dependencies.
 
 ## Installation
