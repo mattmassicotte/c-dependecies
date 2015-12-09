@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class CDependenciesTest < Minitest::Test
+
   def test_file_that_has_no_dependencies
     deps = CDependencies.for_source_file('test/data/no_dependencies.c')
     assert_equal [], deps.paths

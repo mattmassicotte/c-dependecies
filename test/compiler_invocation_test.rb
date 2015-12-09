@@ -26,6 +26,11 @@ class CompilerInvocationTest < Minitest::Test
     assert_equal 'c++', invocation.tool_name
   end
 
+  def test_h_file_input
+    invocation = CDependencies::CompilerInvocation.new('file.h')
+    assert_equal 'cc', invocation.tool_name
+  end
+
   def test_S_file_input
     invocation = CDependencies::CompilerInvocation.new('file.S')
     assert_equal 'gas', invocation.tool_name

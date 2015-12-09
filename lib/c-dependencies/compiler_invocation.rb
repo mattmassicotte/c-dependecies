@@ -9,6 +9,7 @@ module CDependencies
     attr_accessor :output_path
 
     EXTENSION_MAP = { '.c' => 'cc',
+                      '.h' => 'cc',
                       '.cc'=> 'c++',
                       '.cpp' => 'c++',
                       '.hpp' => 'c++',
